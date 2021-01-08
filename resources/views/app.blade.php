@@ -30,7 +30,7 @@
     </head>
     <body>
      
-         <div class=" wrapper border border-success">
+         <div class=" wrapper ">
           
             @yield('content')
          </div>

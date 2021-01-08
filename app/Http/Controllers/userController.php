@@ -16,20 +16,28 @@ class userController extends Controller
     }
 
     public function namesearch(Request $request){
-        $query = $request->input('query');
-        $info = User::where('name', 'LIKE',"%$query%")->get();
+        
+          $query = $request->input('query');
+       if($query !== null){
+        $info = User::where('name', 'LIKE',"%$query%" )->get();
         return view('search',compact('query','info'));
+    }
+      
     }
 
     public function phonesearch(Request $request){
         $query = $request->input('query');
+        if($query !== null){
         $info = User::where('PHONE', 'LIKE',"%$query%")->get();
         return view('search',compact('query','info'));
+        }
     }
 
     public function addsearch(Request $request){
        $query = $request->input('query');
+       if($query !== null){
         $info = User::where('address', 'LIKE',"%$query%")->get();
         return view('search',compact('query','info'));
+       }
     }
 }

@@ -12,18 +12,18 @@
         </button>
         <div class="dropdown-menu">
             <form action="{{ route('namesearch') }}" method="GET">
-                <input type="text" placeholder="search by name" name="query">
-                <input type="submit" value="Search">
+                <input class="form-control mr-sm-2" type="text" placeholder="search by name" name="query">
+                <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Search">
             </form>
             <br>
             <form action="{{ route('phonesearch') }}" method="GET">
-                <input type="text" placeholder="search by phone no." name="query">
-                <input type="submit" value="Search">
+                <input class="form-control mr-sm-2" type="text" placeholder="search by phone no." name="query">
+                <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Search">
                </form>
                 <br>
                <form action="{{ route('addsearch') }}" method="GET">
-                <input type="text" placeholder="search by address" name="query">
-                <input type="submit" value="Search">
+                <input class="form-control mr-sm-2" type="text" placeholder="search by address" name="query">
+                <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Search">
                </form>
         </div>
       </div>
@@ -35,12 +35,25 @@
   </nav>
   
 <div class="m">
-    <nav class="navbar navbar-light bg-dark" style="width:230px">
-        <button class="btn btn-outline-warning" type="button">{{ $info->count() }} search result for -- {{ $query }}</button>
+    <nav class="navbar navbar-light bg-dark" style="width:280px">
+        @if($info->count()>1)
+           
+        <button class="btn btn-danger" type="button"> found {{ $info->count() }}  data for --{{ $query }}</button>
+        <strong class="text-success">for specific data you have to search by phone no.  </strong>
+        <form action="{{ route('phonesearch') }}" method="GET">
+            <input class="form-control mr-sm-2" type="text" placeholder="search by phone no." name="query">
+            <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Search">
+           </form>
+         @elseif($info->count()==1) 
+         <button class="btn btn-warning" type="button">data  match for  -- {{ $query }}</button>
+         @else 
+        <button class="btn btn-warning" type="button">data not found for  -- {{ $query }}</button>
+        @endif
         </nav>
+
 </div>
 <div class="">
-    @if($info->count() > 0)
+    @if($info->count() == 1)
 
    
     <table  class="table table-bordered">
@@ -65,7 +78,35 @@
            @endforeach
         </tbody>
     </table>
+
+    @elseif($info->count()>1)
+    
+    <table  class="table table-bordered">
+        <thead>
+           
+            <tr >
+                <th>ID</th>
+                <th>NAME</th>
+                <th>PHONE NO.</th>
+                <th>ADDRESS</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($info as $key => $in)
+               <tr>
+                   <td>{{ $in->id }}</td>
+                   <td>{{ $in->name }}</td>
+                   <td>{{ $in->phone }}</td>
+                   <td>{{ $in->address }}</td>
+               </tr>
+           @endforeach
+        </tbody>
+    </table>
+    
+
    @else
+
    <h4 class="title" style="margin: 5px;">
     <strong>Sorry,No Post Found for ({{ $query }}) :(</strong> <br> <br><br>
 
